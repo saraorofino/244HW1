@@ -9,7 +9,7 @@ output: html_document
 #{.tabset}
 ##Task 1
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r, setup, message=FALSE, warning=FALSE}
 # load packages
 library(tidyverse)
 library(RColorBrewer)
@@ -21,4 +21,46 @@ agencies <- read_csv("agencies.csv")
 launches <- read_csv("launches.csv")
 ```
 
+```{r, data wrangling}
+# Make launch data frame with country, launch year, and number of launches per year 
+
+launch_data <- launches %>% 
+  mutate(country = fct_collapse(state_code,
+                                "Russia/USSR" = c("RU", "SU"),  
+                                "United States" = "US",
+                                "China" = "CN",
+                                "France" = "F",
+                                "Japan" = "J",
+                                "India" = "IN"),
+         country = fct_lump(country, 6)) %>%  
+  group_by(country, launch_year) %>% 
+  count() 
+
+# make data frame to layer on (?) with country, agency type and category (success or failure)
+
+launch_2 <- launches %>% 
+  mutate(country = fct_collapse(state_code,
+                                "Russia/USSR" = c("RU", "SU"),  
+                                "United States" = "US",
+                                "China" = "CN",
+                                "France" = "F",
+                                "Japan" = "J",
+                                "India" = "IN"),
+         country = fct_lump(country, 6)) %>%  
+  group_by(country, agency_type, category) %>% 
+  count() 
+```
+
+```{r, exploratory graph, include=FALSE}
+# Idea - gganimate year vs. count color equal to country and size of rockets proportionate to the % of successes?
+
+# basic graph for year vs. counts by country 
+launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country)) +
+  geom_line(aes(color=country))
+
+launch_graph
+
+
+#for gganimate see lab 10
+```
 
