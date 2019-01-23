@@ -5,3 +5,20 @@ date: "1/23/2019"
 output: html_document
 ---
 
+
+#{.tabset}
+##Task 1
+
+```{r setup, message=FALSE, warning=FALSE}
+# load packages
+library(tidyverse)
+library(RColorBrewer)
+library(lubridate)
+
+# read in datasets 
+
+agencies <- read_csv("agencies.csv")
+launches <- read_csv("launches.csv")
+```
+
+
