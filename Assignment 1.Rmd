@@ -26,7 +26,7 @@ launches <- read_csv("launches.csv")
 ```{r, data wrangling}
 # Make launch data frame with country, launch year, and number of launches per year for the graph with top 6 countries and the rest as "other"
 
-launch_data <- launches %>% 
+launch_1 <- launches %>% 
   mutate(country = fct_collapse(state_code,
                                 "Russia/USSR" = c("RU", "SU"),  
                                 "United States" = "US",
@@ -79,7 +79,12 @@ launch_success$number_success <- c(289, 284, 58, 106, 3024, 1585, 38)
 # final dataframe that finds the percentage of success 
 
 success <- launch_success %>% 
-  mutate(percent = number_success/n) 
+  mutate(percent = number_success/n) %>% 
+  select(country, percent)
+
+# join data frames for final graph 
+
+launch_data <- left_join(launch_1,success, by="country")
 
 ```
 
@@ -98,16 +103,21 @@ rocket <- "rocket.png"
 # Graph for year vs. counts by country
 
 launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country)) +
-  geom_line(aes(color=country)) +
+  geom_line(aes(color=country, size=percent)) +
   geom_point(aes(color = country)) +
+  geom_image(aes(image = rocket)) +
   scale_y_continuous(expand = c(0,0), limits = c(0,120), breaks = seq(0,120, by = 15)) +
   scale_x_continuous(expand = c(0,0), limits = c(1955, 2020), breaks = seq(1955,2020, by=5)) +
   labs(x="Launch Year", y = "Number of Launches") +
-  scale_color_brewer()
-  theme_classic()
+  scale_color_brewer(type = "seq", palette = "Paired", aesthetics = "colour") +
+  theme_classic() +
+  geom_text(aes(label = country, color = country), position = position_nudge(y = 0.04, x = 1), size = 5)  +
+  transition_reveal(country, launch_year)
 
 launch_graph
 
+# look at line weight for percent success instead of dot size - in geom_line(size=percent)
+# 
 
 
 ```
