@@ -24,17 +24,15 @@ launches <- read_csv("launches.csv")
 ```
 
 ```{r, data wrangling}
-# Make launch data frame with country, launch year, and number of launches per year for the graph with top 6 countries and the rest as "other"
+# Make launch data frame with country, launch year, and number of launches per year for the graph with top 4 countries and the rest as "other"
 
 launch_1 <- launches %>% 
   mutate(country = fct_collapse(state_code,
                                 "Russia/USSR" = c("RU", "SU"),  
                                 "United States" = "US",
                                 "China" = "CN",
-                                "France" = "F",
-                                "Japan" = "J",
-                                "India" = "IN"),
-         country = fct_lump(country, 6)) %>%  
+                                "France" = "F"),
+         country = fct_lump(country, 4)) %>%  
   group_by(country, launch_year) %>% 
   count() 
 
@@ -47,14 +45,12 @@ launch_2 <- launches %>%
                                 "Russia/USSR" = c("RU", "SU"),  
                                 "United States" = "US",
                                 "China" = "CN",
-                                "France" = "F",
-                                "Japan" = "J",
-                                "India" = "IN"),
-         country = fct_lump(country, 6)) %>% 
+                                "France" = "F"),
+         country = fct_lump(country, 4)) %>% 
     group_by(country, category) %>% 
   count()
 
-# number of successes per country from the counts in launch_2: C-289, F-284, I-58, J-106, USSR-3024, US-1585, Other-38
+# number of successes per country from the counts in launch_2: C-289, F-284, USSR-3024, US-1585, Other-202
 
 # use that dataframe to calculate the percent of successful launches by country 
 
@@ -65,16 +61,14 @@ launch_success <- launches %>%
                                 "Russia/USSR" = c("RU", "SU"),  
                                 "United States" = "US",
                                 "China" = "CN",
-                                "France" = "F",
-                                "Japan" = "J",
-                                "India" = "IN"),
-         country = fct_lump(country, 6)) %>% 
+                                "France" = "F"),
+         country = fct_lump(country, 4)) %>% 
     group_by(country) %>% 
   count()
 
 # add a column for number of successes using values found from counts in launch_2 dataframe 
 
-launch_success$number_success <- c(289, 284, 58, 106, 3024, 1585, 38)
+launch_success$number_success <- c(289, 284, 3024, 1585, 202)
 
 # final dataframe that finds the percentage of success 
 
@@ -97,27 +91,25 @@ rocket <- "rocket.png"
 
 
 
-```{r, exploratory graph, include=FALSE}
-# Idea - gganimate year vs. count color equal to country and size of rockets proportionate to the % of successes?
+```{r, launch graph}
 
-# Graph for year vs. counts by country
+# Graph for year vs. counts by country, color = percent of successes per country 
 
-launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country)) +
-  geom_line(aes(color=country, size=percent)) +
-  geom_point(aes(color = country)) +
+launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country, color=percent)) +
+  geom_line() +
   geom_image(aes(image = rocket)) +
   scale_y_continuous(expand = c(0,0), limits = c(0,120), breaks = seq(0,120, by = 15)) +
   scale_x_continuous(expand = c(0,0), limits = c(1955, 2020), breaks = seq(1955,2020, by=5)) +
   labs(x="Launch Year", y = "Number of Launches") +
-  scale_color_brewer(type = "seq", palette = "Paired", aesthetics = "colour") +
+  scale_color_distiller(palette = "YlGnBu", direction = 1, 
+                        name = "Percent of Successful\nLaunches by Country") +
   theme_classic() +
-  geom_text(aes(label = country, color = country), position = position_nudge(y = 0.04, x = 1), size = 5)  +
-  transition_reveal(country, launch_year)
+  geom_text(aes(label= country, color = percent), position = position_nudge(y = 0.04, x = 9), 
+            size = 5)
 
 launch_graph
 
-# look at line weight for percent success instead of dot size - in geom_line(size=percent)
-# 
+# Code to add animate: transition_reveal(country, launch_year)
 
 
 ```
