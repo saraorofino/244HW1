@@ -91,7 +91,7 @@ rocket <- "rocket.png"
 
 
 
-```{r, launch graph}
+```{r, launch graph, warning = FALSE}
 
 # Graph for year vs. counts by country, color = percent of successes per country 
 
@@ -103,14 +103,15 @@ launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country, col
   labs(x="Launch Year", y = "Number of Launches") +
   scale_color_distiller(palette = "YlGnBu", direction = 1, 
                         name = "Percent of Successful\nLaunches by Country") +
-  theme_classic() +
+  theme(panel.background = element_rect(fill = "grey86"),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(color="black", fill = NA)) +
   geom_text(aes(label= country, color = percent), position = position_nudge(y = 0.04, x = 9), 
             size = 5)
 
 launch_graph
 
-# Code to add animate: transition_reveal(country, launch_year)
-
-
+#code to add animation before you turn in   transition_reveal(country, launch_year)
 ```
 
