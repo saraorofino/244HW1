@@ -114,4 +114,4 @@ launch_graph
 
 #code to add animation before you turn in   transition_reveal(country, launch_year)
 ```
-
+*Figure 1: Top Five Countries in Space Launches since 1955.* The top five countries with the largest numbers of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
