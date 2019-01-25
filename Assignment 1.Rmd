@@ -17,14 +17,12 @@ library(lubridate)
 library(gganimate) 
 library(ggimage)
 
-# read in datasets 
-
-agencies <- read_csv("agencies.csv")
+# read in dataset 
 launches <- read_csv("launches.csv")
 ```
 
 ```{r, data wrangling}
-# Make launch data frame with country, launch year, and number of launches per year for the graph with top 4 countries and the rest as "other"
+# Make launch data frame with country -> change from state_code, launch year, and number of launches per year for the graph with top 4 countries and the rest as "other"
 
 launch_1 <- launches %>% 
   mutate(country = fct_collapse(state_code,
@@ -36,8 +34,8 @@ launch_1 <- launches %>%
   group_by(country, launch_year) %>% 
   count() 
 
-# Want to find the percent of success per country to use for dot size in gganimate 
-# make a dataframe with percent success per country 
+# Want to find the percent of success per country  
+# make a dataframe with counts of number of successes per country 
 
 launch_2 <- launches %>% 
   select(state_code, category) %>% 
@@ -91,7 +89,7 @@ rocket <- "rocket.png"
 
 
 
-```{r, launch graph, warning = FALSE}
+```{r, launch graph, warning = FALSE, fig.align="center"}
 
 # Graph for year vs. counts by country, color = percent of successes per country 
 
@@ -112,6 +110,6 @@ launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country, col
 
 launch_graph
 
-#code to add animation before you turn in   transition_reveal(country, launch_year)
+#code to add animation before you turn in transition_reveal(country, launch_year)
 ```
-*Figure 1: Top Five Countries in Space Launches since 1955.* The top five countries with the largest numbers of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
+**Figure 1: Top Five Countries in Space Launches Since 1955.** The top five countries with the largest numbers of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
