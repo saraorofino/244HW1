@@ -16,9 +16,13 @@ library(RColorBrewer)
 library(lubridate)
 library(gganimate) 
 library(ggimage)
+library(janitor)
+library(factoextra)
+library(ggbiplot)
 
-# read in dataset 
+# read in datasets for Task 1 and 2 
 launches <- read_csv("launches.csv")
+usda <- read_csv("usda_nutrients.csv")
 ```
 
 ```{r, data wrangling}
@@ -113,3 +117,38 @@ launch_graph
 #code to add animation before you turn in transition_reveal(country, launch_year)
 ```
 **Figure 1: Top Five Countries in Space Launches Since 1955.** The top five countries with the largest numbers of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
+
+
+##Task 2
+
+```{r, data wrangle, message=FALSE}
+
+# Data wrangling: include food groups "vegetable and vegetable products" and "fruits and fruit juices", retain observations where ShortDescrip contains "RAW"
+
+nutrients <- usda %>% 
+  filter(food_group  == "Vegetables and Vegetable Products" |
+           food_group == "Fruits and Fruit Juices") %>%
+  filter(str_detect(short_descrip, pattern="RAW"))
+
+```
+
+```{r, PCA, biplot, message=FALSE}
+
+# PCA for variables from Protein_g through Zinc_mg
+nutrient_pca <- prcomp(nutrients[9:30], scale = TRUE)
+
+fviz_pca_biplot(nutrient_pca,
+             habillage = nutrients$food_group,
+             palette = c("darkorange2", "darkgreen"),
+             label = "var",
+             repel = TRUE,
+             col.var="slategray") +
+  labs(title = "PCA Biplot: Fruit and Vegetable Nutrients",
+       x = "Dimension 1 (28.1%)",
+       y = "Dimension 2 (10.5%)") +
+  theme_bw()
+
+```
+
+**Trends**  
+
