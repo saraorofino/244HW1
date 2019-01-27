@@ -16,7 +16,6 @@ library(RColorBrewer)
 library(lubridate)
 library(gganimate) 
 library(ggimage)
-library(janitor)
 library(factoextra)
 library(ggbiplot)
 
@@ -134,7 +133,8 @@ nutrients <- usda %>%
 
 ```{r, PCA, biplot, message=FALSE}
 
-# PCA for variables from Protein_g through Zinc_mg
+# PCA for variables from Protein through Zinc
+
 nutrient_pca <- prcomp(nutrients[9:30], scale = TRUE)
 
 fviz_pca_biplot(nutrient_pca,
@@ -142,7 +142,7 @@ fviz_pca_biplot(nutrient_pca,
              palette = c("darkorange2", "darkgreen"),
              label = "var",
              repel = TRUE,
-             col.var="slategray") +
+             col.var="midnightblue") +
   labs(title = "PCA Biplot: Fruit and Vegetable Nutrients",
        x = "Dimension 1 (28.1%)",
        y = "Dimension 2 (10.5%)") +
@@ -151,4 +151,7 @@ fviz_pca_biplot(nutrient_pca,
 ```
 
 **Trends**  
-
+From the biplot above the following trends can be observed:  
+  There is a negative correlation between Sugar and Protein 
+  There is a positive correlation between Vitamin E and Fiber
+  There is no correlation between sugar and Vitamin B12
