@@ -161,7 +161,8 @@ fviz_pca_biplot(nutrient_pca,
 ```
 
 **Trends**  
-From the biplot above the following trends can be observed:  
+From the biplot above, there is a negative correlation between the variables sugar and protein, fruits and vegetables that are higher in sugar are lower in protein and vice versa.   
 (1) There is a negative correlation between Sugar and Protein   
 (2) There is a positive correlation between Vitamin E and Fiber  
-(3) There is no correlation between sugar and Vitamin B12
+(3) There is no correlation between magnesium and Vitamin B12
+Fruits more concentrated and vegetables more spread out? 
