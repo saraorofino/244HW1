@@ -5,19 +5,21 @@ date: "1/23/2019"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 
 #{.tabset}
 ##Task 1
 
-```{r, setup, message=FALSE, warning=FALSE}
+```{r, packages, message=FALSE, warning=FALSE}
 # load packages
 library(tidyverse)
 library(RColorBrewer)
 library(lubridate)
 library(gganimate) 
 library(ggimage)
-library(factoextra)
-library(ggbiplot)
 
 # read in datasets for Task 1 and 2 
 launches <- read_csv("launches.csv")
@@ -109,16 +111,24 @@ launch_graph <- ggplot(launch_data, aes(x=launch_year, y = n, group=country, col
         panel.grid.minor = element_blank(),
         panel.border = element_rect(color="black", fill = NA)) +
   geom_text(aes(label= country, color = percent), position = position_nudge(y = 0.04, x = 9), 
-            size = 5)
+            size = 5) +
+  transition_reveal(country, launch_year)
 
 launch_graph
 
-#code to add animation before you turn in transition_reveal(country, launch_year)
+
 ```
 **Figure 1: Top Five Countries in Space Launches Since 1955.** The top five countries with the largest numbers of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
 
 
 ##Task 2
+```{r, packages2, message=FALSE}
+# load packages for Task 2 to avoid conflicts in task 1
+
+library(factoextra)
+library(ggbiplot)
+```
+
 
 ```{r, data wrangle, message=FALSE}
 
@@ -152,6 +162,6 @@ fviz_pca_biplot(nutrient_pca,
 
 **Trends**  
 From the biplot above the following trends can be observed:  
-  There is a negative correlation between Sugar and Protein 
-  There is a positive correlation between Vitamin E and Fiber
-  There is no correlation between sugar and Vitamin B12
+(1) There is a negative correlation between Sugar and Protein   
+(2) There is a positive correlation between Vitamin E and Fiber  
+(3) There is no correlation between sugar and Vitamin B12
