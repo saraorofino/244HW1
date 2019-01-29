@@ -161,8 +161,4 @@ fviz_pca_biplot(nutrient_pca,
 ```
 
 **Trends**  
-From the biplot above, there is a negative correlation between the variables sugar and protein, fruits and vegetables that are higher in sugar are lower in protein and vice versa.   
-(1) There is a negative correlation between Sugar and Protein   
-(2) There is a positive correlation between Vitamin E and Fiber  
-(3) There is no correlation between magnesium and Vitamin B12
-Fruits more concentrated and vegetables more spread out? 
+From the biplot above, there is a negative correlation between sugar and protein and a positive correlations between copper and phosphorous. There is no correlation between magnesium and Vitamin B12. Fruits and fruit juices are more concentrated to the left of the biplot, indicating that in general fruits are higher in sugar. While vegetables and vegetable products are more spread out and there are more points to the right of the biplot indicating that vegetables generally have higher nutrient concentrations. 
