@@ -1,7 +1,7 @@
 ---
 title: "Assignment 1"
 author: "Sara Orofino"
-date: "1/23/2019"
+date: "1/29/2019"
 output: html_document
 ---
 
@@ -118,7 +118,7 @@ launch_graph
 
 
 ```
-**Figure 1: Top Five Countries in Space Launches Since 1955.** The top five countries with the largest numbers of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
+**Figure 1: Top Five Countries in Space Launches Since 1955.** The top four countries with the largest number of space launches are shown, all other countries are aggregrated into category "Other". Color indicates the proportion of successful launches out of the total launches per country in the time period from 1955 to 2018. 
 
 
 ##Task 2
@@ -132,7 +132,7 @@ library(ggbiplot)
 
 ```{r, data wrangle, message=FALSE}
 
-# Data wrangling: include food groups "vegetable and vegetable products" and "fruits and fruit juices", retain observations where ShortDescrip contains "RAW"
+# Data wrangling: include food groups "vegetable and vegetable products" and "fruits and fruit juices", retain observations where short_descrip contains "RAW"
 
 nutrients <- usda %>% 
   filter(food_group  == "Vegetables and Vegetable Products" |
@@ -161,4 +161,4 @@ fviz_pca_biplot(nutrient_pca,
 ```
 
 **Trends**  
-From the biplot above, there is a negative correlation between sugar and protein and a positive correlations between copper and phosphorous. There is no correlation between magnesium and Vitamin B12. Fruits and fruit juices are more concentrated to the left of the biplot, indicating that in general fruits are higher in sugar. While vegetables and vegetable products are more spread out and there are more points to the right of the biplot indicating that vegetables generally have higher nutrient concentrations. 
+From the biplot above, there is a negative correlation between sugar and protein, which makes sense because foods that are high in sugar are typically not high in protein. There is a positive correlation between copper and phosphorous and no correlation between magnesium and Vitamin B12. Fruits and fruit juices are more concentrated to the left of the biplot, indicating that in general, fruits are higher in sugar. While vegetables and vegetable products are more spread out and there are more points to the right of the biplot indicating that vegetables generally have higher nutrient concentrations. 
